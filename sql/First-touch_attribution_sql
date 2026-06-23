@@ -1,0 +1,32 @@
+query = """
+WITH first_touch AS (
+
+    SELECT
+        user_id,
+        channel,
+
+        ROW_NUMBER() OVER(
+            PARTITION BY user_id
+            ORDER BY event_timestamp_utc
+        ) AS touch_order
+
+    FROM marketing_data
+
+)
+
+SELECT
+    channel,
+    COUNT(*) AS first_touch_count
+
+FROM first_touch
+
+WHERE touch_order = 1
+
+GROUP BY channel
+
+ORDER BY first_touch_count DESC
+"""
+
+first_touch_result = pd.read_sql_query(query, conn)
+
+first_touch_result
