@@ -1,0 +1,18 @@
+query = """
+SELECT
+    user_id,
+    journey_id,
+    channel,
+    event_timestamp_utc,
+
+    ROW_NUMBER() OVER(
+        PARTITION BY user_id
+        ORDER BY event_timestamp_utc
+    ) AS touch_order
+
+FROM marketing_data
+"""
+
+journey_sequence = pd.read_sql_query(query, conn)
+
+journey_sequence.head(20)
