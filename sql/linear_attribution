@@ -1,1 +1,20 @@
+query = """
+SELECT
+    user_id,
+    channel,
 
+    COUNT(*) OVER(
+        PARTITION BY user_id
+    ) AS total_touchpoints,
+
+    1.0 /
+    COUNT(*) OVER(
+        PARTITION BY user_id
+    ) AS linear_weight
+
+FROM marketing_data
+"""
+
+linear_weights = pd.read_sql_query(query, conn)
+
+linear_weights.head(20)
