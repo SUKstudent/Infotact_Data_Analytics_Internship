@@ -23,3 +23,7 @@ cac = total_spend / total_customers#Customer Acquisition Cost
 print("CAC:",round(cac,2))
 total_regions = df['region'].nunique()
 print(total_regions)
+
+total_count = df['total_touchpoints_in_journey'].count()
+print("Total Count:", total_count)
+print("Average Touch Points :",round(total_touchpoints/total_count,1))
