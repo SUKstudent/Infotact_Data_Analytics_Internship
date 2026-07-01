@@ -27,3 +27,14 @@ print(total_regions)
 total_count = df['total_touchpoints_in_journey'].count()
 print("Total Count:", total_count)
 print("Average Touch Points :",round(total_touchpoints/total_count,1))
+
+first_touch = df[df['touchpoint_number'] == 1]
+print("First Touch Records:", len(first_touch))
+print(first_touch['channel'].value_counts())
+
+last_touch = df[df['touchpoint_number'] == df['total_touchpoints_in_journey']]
+print("Last Touch Records:", len(last_touch))
+print(last_touch['channel'].value_counts())
+
+df['linear_credit'] = df['conversion_value'] / df['total_touchpoints_in_journey']
+print(df[['journey_id', 'channel', 'linear_credit']].head())
